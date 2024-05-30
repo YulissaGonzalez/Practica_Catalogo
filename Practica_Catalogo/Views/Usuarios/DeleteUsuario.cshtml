@@ -1,0 +1,69 @@
+﻿@model Practica_Catalogo.Models.Usuarios
+
+@{
+    ViewBag.Title = "DeleteUsuario";
+}
+
+<style>
+    .delete-container {
+        margin-top: 10vh;
+    }
+
+    .card {
+        border: 1px solid #dee2e6;
+        border-radius: .375rem;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+
+<div class="container delete-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>¿Estás seguro de eliminar este usuario?</h3>
+                </div>
+                <div class="card-body text-center">
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Nombre)
+                        </dd>
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            @Html.ActionLink("Cancelar", "IndexUsuarios", null, new { @class = "btn btn-secondary" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,143 @@
+﻿@model Practica_Catalogo.Models.Usuarios
+
+@{
+    ViewBag.Title = "EditUsuario";
+    var Lista = ViewBag.Lista as List<Practica_Catalogo.Models.Roles>;
+}
+
+<style>
+    .form-container {
+        margin-top: 5vh;
+        background-color: #ecedf2;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-outline-custom {
+        border-color: #007bff;
+        color: #007bff;
+    }
+
+        .btn-outline-custom:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .col-form-label {
+        text-align: right;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="form-title">EDITAR USUARIO</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.id)
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "col-form-label" })
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "col-form-label" })
+                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "col-form-label" })
+                    @Html.EditorFor(model => model.Contrasena, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Curp, htmlAttributes: new { @class = "col-form-label" })
+                    @Html.EditorFor(model => model.Curp, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Curp, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Edad, htmlAttributes: new { @class = "col-form-label" })
+                    @Html.EditorFor(model => model.Edad, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Edad, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "col-form-label" })
+                    <div class="form-check">
+                        @Html.RadioButtonFor(model => model.Genero, "Masculino", new { @class = "form-check-input", id = "flexRadioDefault1" })
+                        <label class="form-check-label" for="flexRadioDefault1">Masculino</label>
+                    </div>
+                    <div class="form-check">
+                        @Html.RadioButtonFor(model => model.Genero, "Femenino", new { @class = "form-check-input", id = "flexRadioDefault2" })
+                        <label class="form-check-label" for="flexRadioDefault2">Femenino</label>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.IdRol, "Rol", htmlAttributes: new { @class = "col-form-label" })
+                    <select name="IdRol" class="form-control">
+                        <option value="">Seleccione un rol</option>
+                        @if (Lista != null)
+                        {
+                            foreach (var role in Lista)
+                            {
+                                <option value="@role.idRol" @(role.idRol == Model.IdRol ? "selected" : "")>@role.Nombre</option>
+                            }
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-1 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <input type="submit" value="Guardar" class="btn btn-primary me-md-2" />
+                    @Html.ActionLink("Cancelar", "IndexUsuarios", null, new { @class = "btn btn-outline-secondary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
